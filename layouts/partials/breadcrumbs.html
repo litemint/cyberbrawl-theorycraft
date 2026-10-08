@@ -1,0 +1,26 @@
+{{- /* PaperMod's breadcrumbs, with the reference sections as plain words: they are labels in the side menu, not pages. */ -}}
+{{- if (.Param "ShowBreadCrumbs") -}}
+<div class="breadcrumbs">
+    {{- $url := replace .Parent.Permalink (printf "%s" site.Home.Permalink) "" }}
+    {{- $lang_url := strings.TrimPrefix (printf "%s/" .Lang) $url -}}
+
+    <a href="{{ "" | absLangURL }}">{{ i18n "home" | default "Home" }}</a>
+    {{- $scratch := newScratch }}
+    {{- range $index, $element := split $lang_url "/" }}
+
+    {{- $scratch.Add "path" (printf "%s/" $element )}}
+    {{- $bc_pg := site.GetPage ($scratch.Get "path") -}}
+
+    {{- /* The reference root is not a step, its sections are words. */ -}}
+    {{- if (and ($bc_pg) (gt (len . ) 0) (ne ($scratch.Get "path") "docs/"))}}
+    {{- print "&nbsp;»&nbsp;" | safeHTML -}}
+    {{- if hasPrefix ($scratch.Get "path") "docs/" -}}
+    <span>{{ $bc_pg.Name }}</span>
+    {{- else -}}
+    <a href="{{ $bc_pg.Permalink }}">{{ $bc_pg.Name }}</a>
+    {{- end -}}
+    {{- end }}
+
+    {{- end -}}
+</div>
+{{- end -}}

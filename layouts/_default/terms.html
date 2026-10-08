@@ -1,0 +1,49 @@
+{{ define "main" }}
+<main class="main" id="main">
+  <article class="post-single">
+    <header class="post-header">
+      <h1 class="post-title">{{ .Title }}</h1>
+    </header>
+
+    {{/* SPECIAL CASE: AUTHORS (cards) */}}
+    {{ if eq .Data.Plural "authors" }}
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:1rem;">
+        {{ range .Data.Terms.Alphabetical }}
+          {{ $p := .Page }}
+          {{ if $p }}
+            {{ $avatar := or $p.Params.avatar $p.Params.image }}
+            <a href="{{ $p.RelPermalink }}"
+               style="display:flex;gap:1rem;align-items:center;padding:1rem;border:1px solid var(--content-border-color,rgba(127,127,127,.2));border-radius:.75rem;text-decoration:none;color:inherit;">
+              {{ if $avatar }}
+                <img src="{{ $avatar }}" alt="{{ $p.Title }}" width="64" height="64" style="border-radius:50%;object-fit:cover;">
+              {{ end }}
+              <div>
+                <div style="font-weight:600;line-height:1.2;">{{ $p.Title }}</div>
+                {{ with $p.Params.bio }}
+                  <div style="opacity:.8;font-size:.9rem;margin-top:.25rem;">{{ . }}</div>
+                {{ end }}
+                <div style="opacity:.7;font-size:.85rem;margin-top:.35rem;">
+                  {{ .Count }} post{{ if ne .Count 1 }}s{{ end }}
+                </div>
+              </div>
+            </a>
+          {{ else }}
+            <div>{{ .Term }} ({{ .Count }})</div>
+          {{ end }}
+        {{ end }}
+      </div>
+
+    {{/* DEFAULT for other taxonomies (tags, categories, etc.) */}}
+    {{ else }}
+      <ul class="term-list" style="list-style:none;padding:0;margin:1rem 0;">
+        {{ range .Data.Terms.Alphabetical }}
+          <li style="margin:.5rem 0;">
+            <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+            <span style="opacity:.7;">({{ .Count }})</span>
+          </li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  </article>
+</main>
+{{ end }}

@@ -1,0 +1,400 @@
+/* theorycraft.cyberbrawl.io: the reference rail beside every page, the trailer on the home, the live cards. */
+
+:root {
+    --tc-rail: 232px;
+}
+
+/* The header and the footer stretch to the shell's width so the rail does not hang outside them. */
+.nav,
+.footer {
+    max-width: calc(var(--main-width) + var(--gap) * 2 + var(--tc-rail) + var(--gap));
+}
+
+.tc-shell {
+    display: flex;
+    gap: var(--gap);
+    max-width: calc(var(--main-width) + var(--gap) * 2 + var(--tc-rail) + var(--gap));
+    margin: 0 auto;
+    padding: 0 var(--gap);
+}
+
+.tc-shell > .main {
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+/* The rail. */
+.tc-sidebar {
+    flex: 0 0 var(--tc-rail);
+    width: var(--tc-rail);
+    align-self: flex-start;
+    position: sticky;
+    top: calc(var(--header-height) + var(--gap));
+    max-height: calc(100vh - var(--header-height) - var(--gap) * 2);
+    overflow-y: auto;
+    padding: var(--gap) 0;
+    margin-top: calc(var(--gap) * 2);
+    border-right: 1px solid var(--border);
+    scrollbar-width: thin;
+}
+
+/* The rail has no title; the summary only shows on a phone, as the menu's handle. */
+.tc-sidebar-title {
+    display: none;
+    list-style: none;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.tc-sidebar-title::-webkit-details-marker {
+    display: none;
+}
+
+.tc-sidebar-title a {
+    color: inherit;
+}
+
+.tc-group {
+    margin-bottom: 0.9rem;
+}
+
+/* A section is a label that folds its pages, never a link. */
+.tc-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.2rem 0.3rem 0.2rem 0;
+    color: var(--primary);
+}
+
+.tc-group-title::-webkit-details-marker {
+    display: none;
+}
+
+.tc-group-title::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--secondary);
+    border-bottom: 1.5px solid var(--secondary);
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease;
+}
+
+.tc-group[open] > .tc-group-title::after {
+    transform: rotate(45deg);
+}
+
+.tc-tree ul {
+    list-style: none;
+    margin: 0.2rem 0 0;
+    padding: 0 0 0 0.75rem;
+    border-left: 1px solid var(--border);
+}
+
+.tc-tree li a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    padding: 0.22rem 0.5rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--secondary);
+    border-radius: 0 4px 4px 0;
+}
+
+.tc-tree li a:hover {
+    color: var(--primary);
+    background: var(--code-bg);
+}
+
+.tc-tree a.tc-out svg {
+    width: 11px;
+    height: 11px;
+    margin-left: 6px;
+    opacity: 0.6;
+    vertical-align: -1px;
+}
+
+.tc-tree a.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+/* A phone: a chip row of the sections under the header, always visible and scrollable; a tapped section's pages open
+   in a panel under the row. The rail markup stays in the page for the script to read, hidden. */
+.tc-bar {
+    display: none;
+}
+
+@media (max-width: 1080px) {
+    .tc-shell {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .tc-bar {
+        display: block;
+        margin: 10px 0 0;
+    }
+
+    .tc-bar-row {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 2px 0 6px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tc-bar-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tc-chip {
+        flex: none;
+        padding: 7px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--entry);
+        color: var(--secondary);
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .tc-chip.here {
+        color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .tc-chip.open {
+        background: var(--primary);
+        color: var(--theme);
+        border-color: var(--primary);
+    }
+
+    .tc-bar-panel {
+        margin-top: 6px;
+        padding: 6px 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--entry);
+    }
+
+    .tc-bar-panel ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 14px;
+    }
+
+    .tc-bar-panel li a {
+        display: inline-block;
+        padding: 6px 4px;
+        font-size: 0.95rem;
+        color: var(--secondary);
+    }
+
+    .tc-bar-panel li a.active {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    .tc-bar-panel a.tc-out svg {
+        width: 11px;
+        height: 11px;
+        margin-left: 5px;
+        opacity: 0.6;
+        vertical-align: -1px;
+    }
+
+    .tc-sidebar {
+        position: static;
+        width: auto;
+        align-self: stretch;
+        max-height: none;
+        flex: none;
+        margin: var(--gap) 0 0;
+        padding: 0.6rem 0.9rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--entry);
+    }
+
+    .tc-sidebar-title {
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .tc-sidebar-title::after {
+        content: "+";
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    .tc-sidebar[open] .tc-sidebar-title::after {
+        content: "–";
+    }
+
+    .tc-sidebar[open] .tc-sidebar-title {
+        padding-bottom: 0.6rem;
+    }
+}
+
+/* The brand: the icon, then "cyberbrawl" small and dimmed over "theorycraft", left aligned. */
+.logo a.tc-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: inherit;
+    line-height: 1;
+}
+
+.logo a.tc-brand img {
+    transform: none;
+    margin: 0;
+}
+
+.tc-brand-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.tc-brand-over {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--secondary);
+    opacity: 0.8;
+}
+
+.tc-brand-name {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* The home card: tighter than the blog's, there is no social row under the text any more. */
+.home-theorycraft {
+    padding-top: 1.5rem;
+}
+
+.home-theorycraft .home-profile {
+    margin-bottom: 1rem;
+    align-items: flex-start;
+}
+
+/* Stacked on a phone, the avatar sits centred over the centred text, at three quarters of its size, with the
+   space above and below it tightened: the screen is short. */
+@media (max-width: 720px) {
+    .home-theorycraft {
+        padding-top: 0.25rem;
+    }
+
+    .home-theorycraft .home-profile {
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .home-theorycraft .home-avatar img {
+        width: 78px;
+        height: 78px;
+    }
+
+    .home-theorycraft .home-name {
+        margin-top: 0;
+    }
+}
+
+.home-theorycraft .bio-container {
+    margin-bottom: 0;
+}
+
+.home-theorycraft .home-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.14);
+}
+
+/* The trailer: wide, the badge in a corner, the whole thing a link. */
+.home-trailer {
+    position: relative;
+    display: block;
+    margin: 0.25rem 0 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16 / 9;
+}
+
+.home-trailer-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s ease;
+}
+
+.home-trailer:hover .home-trailer-video {
+    transform: scale(1.02);
+}
+
+.home-trailer-badge {
+    position: absolute;
+    left: 0.8rem;
+    bottom: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.home-trailer-badge svg {
+    width: 18px;
+    height: 18px;
+    color: #ff6b6b;
+}
+
+/* Live cards in a page. */
+.tc-card {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0.5rem 0.75rem 0.5rem 0;
+    border-radius: 12px;
+}
+
+/* Reference tables read better a touch tighter. */
+.post-content table {
+    font-size: 0.92rem;
+}

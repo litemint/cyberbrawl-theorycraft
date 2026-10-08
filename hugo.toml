@@ -1,0 +1,120 @@
+baseURL = "https://theorycraft.cyberbrawl.io/"
+languageCode = "en"
+title = "Theorycraft · Cyberbrawl"
+theme = ["PaperMod"]
+enableRobotsTXT = true
+
+[taxonomies]
+  author = "authors"
+  tag = "tags"
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  env = "production"
+  defaultTheme = "dark"
+  mainSections = ["posts"] # The home lists the posts; the reference lives in the side menu.
+  ShowReadingTime = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowAuthor = true
+  images = ["https://theorycraft.cyberbrawl.io/banner.png"]
+  description = "The numbers behind Cyberbrawl: the ladder, the odds, the Forge, the chain, and the data it all runs on."
+
+[params.label]
+  over = "cyberbrawl" # The small dimmed line above the name.
+  text = "theorycraft"
+  icon = "img/cyberbrawl-logo.png"
+  iconHeight = 34
+
+# Every page links to its source in the public repository: fixes and additions come as pull requests.
+[params.editPost]
+  URL = "https://github.com/litemint/cyberbrawl-theorycraft/edit/main/content"
+  Text = "Edit this page"
+  appendFilePath = true
+
+[params.footer]
+  startYear = 2026
+  hideCopyright = true
+  text = "© 2026 LITEMINT LLC · [Cyberbrawl](https://cyberbrawl.io) · [Undercity](https://undercity.cyberbrawl.io) · [Discord](https://litemint.gg) · [RSS](/index.xml)"
+  poweredBy = ""
+
+[params.homeInfoParams]
+  Title = "Cyberbrawl Theorycraft"
+  Tagline = "Min-max your brawl"
+  Content = """For players who want the edge, this is where we document Cyberbrawl's core mechanics from our shuffle and rating algorithms to technical deep dives and a public API for live game data.
+  """
+  FullContent = """For players who want the edge, this is where we document Cyberbrawl's core mechanics from our shuffle and rating algorithms to technical deep dives and a public API for live game data.
+  &nbsp;  
+  &nbsp;  
+  **Want to contribute?** The site is a public repository: [github.com/litemint/cyberbrawl-theorycraft](https://github.com/litemint/cyberbrawl-theorycraft). New articles are welcome: add a markdown file under `content/posts/` and open a pull request.
+  """
+  Avatar = "img/cyberbrawl-icon.png"
+  AlignSocialIconsTo = "left"
+
+[[params.homeInfoParams.featured]]
+  title = "Play Cyberbrawl"
+  subtitle = "Free, web and mobile"
+  image = "img/cyberbrawl-icon.png"
+  url   = "https://cyberbrawl.io"
+
+[[params.homeInfoParams.featured]]
+  title = "The Undercity"
+  subtitle = "Trade cards onchain"
+  image = "img/undercity-thumb.png"
+  url   = "https://undercity.cyberbrawl.io"
+
+[[params.homeInfoParams.featured]]
+  title = "Discord"
+  subtitle = "Chat with us"
+  image = "img/discord-thumb.png"
+  url   = "https://litemint.gg"
+
+# The trailer: a muted loop on the home, a click goes to the channel.
+[params.homeInfoParams.trailer]
+  src    = "https://cdn.litemint.com/static/trailer-hero-protocol-720.mp4"
+  poster = "https://cdn.litemint.com/static/trailer-hero-protocol-poster.jpg"
+  url    = "https://www.youtube.com/litemint"
+  title  = "Hero Protocol trailer, watch on YouTube"
+
+[[params.socialIcons]]
+  name = "discord"
+  url  = "https://litemint.gg"
+
+[[params.socialIcons]]
+  name = "youtube"
+  url  = "https://www.youtube.com/litemint"
+
+[[params.socialIcons]]
+  name = "x"
+  url  = "https://x.com/LitemintHQ"
+
+[[params.socialIcons]]
+  name = "github"
+  url  = "https://github.com/litemint"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url  = "/"
+    weight = 1
+
+  [[menu.main]]
+    name = "Posts"
+    url  = "/posts/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Tags"
+    url  = "/tags/"
+    weight = 3

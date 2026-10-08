@@ -1,0 +1,4 @@
+{{- /* A Cyberbrawl card drawn live by the game's own element: {{< card code="CARD00011" width="220px" still="true" >}}
+The script is a module, so the tag may repeat on a page and loads once. */ -}}
+<script type="module" src="https://static.cyberbrawl.io/lib/cyberbrawl-card.js"></script>
+<cyberbrawl-card class="tc-card" code="{{ .Get "code" }}"{{ if eq (.Get "still") "true" }} still{{ end }} style="width: {{ .Get "width" | default "220px" }}"></cyberbrawl-card>

@@ -1,0 +1,21 @@
+{{- $src := .Get "src" -}}
+{{- $poster := .Get "poster" -}}
+{{- $width := .Get "width" -}}
+{{- $height := .Get "height" -}}
+{{- $autoplay := .Get "autoplay" -}}
+{{- $loop := .Get "loop" -}}
+{{- $muted := .Get "muted" -}}
+{{- $controls := .Get "controls" | default "true" -}}
+<video
+  style="width:100%;height:auto;"
+  playsinline
+  {{- if $width }} width="{{ $width }}"{{ end -}}
+  {{- if $height }} height="{{ $height }}"{{ end -}}
+  {{- if $poster }} poster="{{ $poster }}"{{ end -}}
+  {{- if eq (lower $controls) "true" }} controls{{ end -}}
+  {{- if eq (lower $autoplay) "true" }} autoplay{{ end -}}
+  {{- if eq (lower $loop) "true" }} loop{{ end -}}
+  {{- if eq (lower $muted) "true" }} muted{{ end -}}>
+  <source src="{{ $src }}" type="video/mp4">
+  Sorry, your browser doesn't support embedded videos.
+</video>

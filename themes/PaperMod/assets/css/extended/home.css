@@ -1,0 +1,242 @@
+.home-kyungjin {
+    padding-top: 2rem;
+}
+
+/* PROFILE HEADER */
+
+.home-profile {
+    display: flex;
+    align-items: top;
+    gap: 1.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
+
+.home-avatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.14);
+    cursor: pointer;
+}
+
+.home-profile-main {
+    flex: 1;
+    min-width: 240px;
+}
+
+.home-name {
+    margin: 0 0 0.25rem 0;
+}
+
+.home-tagline {
+    margin: 0 0 0.5rem 0;
+    opacity: 0.9;
+}
+
+.bio-container {
+    position: relative;
+    margin: 0 0 1rem 0;
+    opacity: 0.85;
+    font-size: 0.95rem;
+}
+
+.bio-container a {
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+.bio-container a:hover {
+    opacity: 0.85;
+}
+
+.bio-toggle {
+    display: none;
+}
+
+.bio-short,
+.bio-full {
+    transition: opacity 0.25s ease;
+}
+
+.bio-short {
+    display: block;
+}
+
+.bio-full {
+    display: none;
+}
+
+.bio-toggle:checked ~ .bio-short {
+    display: none;
+}
+.bio-toggle:checked ~ .bio-full {
+    display: block;
+}
+
+.bio-more,
+.bio-less {
+    color: #2AA8FF;
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+}
+
+.bio-more:hover,
+.bio-less:hover {
+    opacity: 0.75;
+}
+
+.home-social-row {
+    padding-top: 0.5rem;
+}
+
+/* FEATURED TILES */
+
+.home-featured {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 720px) {
+    .home-featured {
+        grid-template-columns: 1fr;
+    }
+
+    .home-featured .featured-card:nth-child(n+3) {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .home-profile {
+        flex-direction: column;
+        align-items: center;
+        /* centers avatar + text */
+        text-align: center;
+        /* centers text below avatar */
+    }
+
+    .home-profile-main {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.featured-card {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.5rem;
+    background: var(--entry);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    text-decoration: none;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+}
+
+.featured-thumb {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0px;
+    /* creates inner margin for better logo centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.featured-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(3px);
+}
+
+.featured-thumb img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.featured-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+/* First line: strong, modern */
+.featured-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.15rem;
+}
+
+/* Second line: subtle, elegant */
+.featured-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.home-role {
+    letter-spacing: 0.01em;
+    margin-top: -0.2rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+
+/* Base: slightly smaller icons everywhere */
+.home-social-row .social-icons a svg {
+    width: 27px;
+    height: 27px;
+}
+
+.home-social-row .social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+/* Ensure they do not look spaced out too much */
+.home-social-row .social-icons a {
+    padding: 0 0.5rem;
+}
+
+/* Desktop/tablet: keep left alignment (since AlignSocialIconsTo = "left") */
+.home-social-row .social-icons {
+    justify-content: flex-start;
+}
+
+/* Mobile: center the icon row */
+@media (max-width: 720px) {
+    .home-social-row .social-icons {
+        justify-content: center;
+    }
+}
+
+
+figure img {
+  max-width: 540px;
+  width: 100%;
+  height: auto;
+}

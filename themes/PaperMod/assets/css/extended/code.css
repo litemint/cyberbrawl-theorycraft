@@ -1,0 +1,26 @@
+.code-line {
+  font-family: "Fira Code", Consolas, monospace;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 720px) {
+    .code-line {
+        font-size: 0.7rem;
+    }
+}
+
+.code-line .kw {
+  color: #6B8DE3;
+}
+
+.code-line .var {
+  color: #E96D92;
+  font-weight: 600;
+}
+
+.code-line .fn {
+  color: #3FBF9A;
+  font-weight: 600;
+}

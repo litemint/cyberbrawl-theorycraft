@@ -1,0 +1,80 @@
+{{- /* The reference tree: the sections of /docs as collapsible labels, their pages as the only links, by weight, the
+current page marked. On a wide screen it is a rail on the left, always open and without a title; on a phone the script
+below turns it into a chip row of the sections under the header, with the pages of a tapped section in a panel. */ -}}
+{{- $docs := site.GetPage "docs" -}}
+{{- if $docs }}
+{{- $here := . -}}
+<details class="tc-sidebar" open>
+    <summary class="tc-sidebar-title">Menu</summary>
+    <nav class="tc-tree" aria-label="Reference">
+        {{- range $docs.Sections.ByWeight }}
+        {{- $section := . -}}
+        <details class="tc-group" open>
+            <summary class="tc-group-title">{{ .Title }}</summary>
+            <ul>
+                {{- range .RegularPages.ByWeight }}
+                {{- $page := . -}}
+                {{- with .Params.link }}
+                <li><a class="tc-out" href="{{ . }}" target="_blank" rel="noopener">{{ $page.Params.short | default $page.Title }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14L21 3"></path></svg></a></li>
+                {{- else }}
+                <li><a{{ if eq $here.Permalink .Permalink }} class="active" aria-current="page"{{ end }} href="{{ .RelPermalink }}">{{ .Params.short | default .Title }}</a></li>
+                {{- end }}
+                {{- end }}
+            </ul>
+        </details>
+        {{- end }}
+    </nav>
+</details>
+<script>
+    // A wide screen keeps the rail, always open. A phone gets a chip row of the sections under the header, always
+    // visible and scrollable, and a tap opens the section's pages in a panel under the row.
+    (function () {
+        var tree = document.querySelector('.tc-sidebar');
+        if (!tree) return;
+        var narrow = window.matchMedia('(max-width: 1080px)');
+        var bar = null;
+        function build() {
+            if (bar) return;
+            bar = document.createElement('div');
+            bar.className = 'tc-bar';
+            var row = document.createElement('div');
+            row.className = 'tc-bar-row';
+            var panel = document.createElement('div');
+            panel.className = 'tc-bar-panel';
+            var groups = tree.querySelectorAll('.tc-group');
+            var chips = [];
+            groups.forEach(function (group) {
+                var chip = document.createElement('button');
+                chip.type = 'button';
+                chip.className = 'tc-chip';
+                chip.textContent = group.querySelector('.tc-group-title').textContent.trim();
+                if (group.querySelector('a.active')) chip.classList.add('here');
+                chip.addEventListener('click', function () {
+                    var open = chip.classList.contains('open');
+                    chips.forEach(function (c) { c.classList.remove('open'); });
+                    panel.innerHTML = '';
+                    if (open) { panel.hidden = true; return; }
+                    chip.classList.add('open');
+                    panel.appendChild(group.querySelector('ul').cloneNode(true));
+                    panel.hidden = false;
+                });
+                chips.push(chip);
+                row.appendChild(chip);
+            });
+            panel.hidden = true;
+            bar.appendChild(row);
+            bar.appendChild(panel);
+            tree.parentNode.insertBefore(bar, tree);
+            var here = row.querySelector('.here');
+            if (here) here.scrollIntoView({ inline: 'center', block: 'nearest' });
+        }
+        function sync() {
+            if (narrow.matches) { build(); tree.hidden = true; }
+            else { tree.hidden = false; tree.setAttribute('open', ''); }
+        }
+        sync();
+        narrow.addEventListener('change', sync);
+        window.addEventListener('resize', sync);
+    })();
+</script>
+{{- end }}

@@ -1,0 +1,63 @@
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info home-theorycraft">
+
+  <!-- SITE CARD -->
+  <section class="home-profile">
+    <div class="home-avatar">
+      {{ with .Avatar }}
+      <img src="{{ . | relURL }}" alt="{{ $.Title }}">
+      {{ end }}
+    </div>
+
+    <div class="home-profile-main">
+      <h1 class="home-name">{{ .Title | markdownify }}</h1>
+
+      {{ with .Tagline }}
+      <p class="home-tagline">{{ . | markdownify }}</p>
+      {{ end }}
+
+      <div class="bio-container">
+        <input type="checkbox" id="bioToggle" class="bio-toggle">
+        <div class="bio-short">
+          {{ .Content | markdownify | string | replaceRE "<a href=" "<a target=\"_blank\" rel=\"noopener\" href=" | safeHTML }}
+          <label class="bio-more" for="bioToggle">Want to contribute?</label>
+        </div>
+        <div class="bio-full">
+          {{ .FullContent | markdownify | string | replaceRE "<a href=" "<a target=\"_blank\" rel=\"noopener\" href=" | safeHTML }}
+          <label class="bio-less" for="bioToggle">Show less</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAILER: a muted loop, a click goes to the channel -->
+  {{ with .trailer }}
+  <a class="home-trailer" href="{{ .url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
+    <video class="home-trailer-video" src="{{ .src }}"{{ with .poster }} poster="{{ . }}"{{ end }} autoplay loop muted playsinline preload="metadata"></video>
+    <span class="home-trailer-badge">{{ partial "svg.html" (dict "name" "youtube") }}<span>Watch on YouTube</span></span>
+  </a>
+  {{ end }}
+
+  <!-- FEATURED TILES -->
+  {{ with .featured }}
+  <section class="home-featured">
+    {{ range . }}
+    <a class="featured-card" href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+      <div class="featured-thumb">
+        {{ with .image }}
+        <img src="{{ . | relURL }}" alt="">
+        {{ end }}
+      </div>
+      <div class="featured-meta">
+        {{ with .subtitle }}
+        <div class="featured-subtitle">{{ . }}</div>
+        {{ end }}
+        <div class="featured-title">{{ .title }}</div>
+      </div>
+    </a>
+    {{ end }}
+  </section>
+  {{ end }}
+
+</article>
+{{- end -}}

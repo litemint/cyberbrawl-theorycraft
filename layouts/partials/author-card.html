@@ -1,0 +1,112 @@
+{{- /* Author cards using theme social icons */ -}}
+{{- if .Params.authors -}}
+  {{- $displays := .Params.authorDisplay -}}
+  {{- range $i, $slug := .Params.authors -}}
+    {{- $p := site.GetPage (printf "authors/%s" $slug) -}}
+    {{- if $p -}}
+      {{- $name := $p.Params.name | default $p.Title | default $slug -}}
+      {{- if and $displays (lt $i (len $displays)) -}}
+        {{- $disp := index $displays $i -}}
+        {{- if $disp }}{{- $name = $disp -}}{{- end -}}
+      {{- end -}}
+      {{- $avatar := or $p.Params.avatar $p.Params.image -}}
+
+      {{/* Build a list of social icon entries expected by the theme:
+           each item is { name, url, title? }. We only transform URLs/handles.
+      */}}
+      {{- $icons := slice -}}
+
+      {{- /* LinkedIn */ -}}
+      {{- with $p.Params.linkedin -}}
+        {{- $l := printf "%v" . -}}
+        {{- $u := cond (hasPrefix $l "http") $l (cond (or (hasPrefix $l "in/") (hasPrefix $l "company/")) (printf "https://www.linkedin.com/%s" $l) (printf "https://www.linkedin.com/in/%s" $l)) -}}
+        {{- $icons = $icons | append (dict "name" "linkedin" "url" $u) -}}
+      {{- end -}}
+
+      {{- /* Instagram */ -}}
+      {{- with $p.Params.instagram -}}
+        {{- $g := replaceRE "^@+" "" (printf "%v" .) -}}
+        {{- $u := cond (hasPrefix $g "http") $g (printf "https://instagram.com/%s" $g) -}}
+        {{- $icons = $icons | append (dict "name" "instagram" "url" $u) -}}
+      {{- end -}}
+
+      {{- /* X / Twitter */ -}}
+      {{- with (or $p.Params.x $p.Params.twitter) -}}
+        {{- $h := replaceRE "^@+" "" (printf "%v" .) -}}
+        {{- $u := cond (hasPrefix $h "http") $h (printf "https://x.com/%s" $h) -}}
+        {{- $icons = $icons | append (dict "name" "x" "url" $u "title" "X") -}}
+      {{- end -}}
+
+      {{- /* GitHub */ -}}
+      {{- with $p.Params.github -}}
+        {{- $g := replaceRE "^@+" "" (printf "%v" .) -}}
+        {{- $u := cond (hasPrefix $g "http") $g (printf "https://github.com/%s" $g) -}}
+        {{- $icons = $icons | append (dict "name" "github" "url" $u) -}}
+      {{- end -}}
+
+      {{- /* Youtube */ -}}
+      {{- with $p.Params.youtube -}}
+        {{- $g := replaceRE "^@+" "" (printf "%v" .) -}}
+        {{- $u := cond (hasPrefix $g "http") $g (printf "https://youtube.com/@%s" $g) -}}
+        {{- $icons = $icons | append (dict "name" "youtube" "url" $u) -}}
+      {{- end -}}
+
+      {{- /* Website */ -}}
+      {{- with (or $p.Params.website $p.Params.site $p.Params.url) -}}
+        {{- $w := printf "%v" . -}}
+        {{- $u := cond (hasPrefix $w "http") $w (printf "https://%s" $w) -}}
+        {{- $icons = $icons | append (dict "name" "website" "url" $u "title" "Website") -}}
+      {{- end -}}
+
+      {{- /* Email */ -}}
+      {{- with $p.Params.email -}}
+        {{- $u := cond (hasPrefix . "mailto:") . (printf "mailto:%s" .) -}}
+        {{- $icons = $icons | append (dict "name" "email" "url" $u "title" "Email") -}}
+      {{- end -}}
+
+      {{- $short := $p.Params.bio_short | default $p.Params.bio -}}
+      {{- $full := $p.Params.bio_full -}}
+
+      <section class="author-card"
+        style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--content-border-color,rgba(127,127,127,.2));display:flex;gap:1rem;align-items:flex-start;">
+        {{- if $avatar -}}
+          <img src="{{ $avatar }}" alt="{{ $name }}" width="64" height="64" style="border-radius:50%;object-fit:cover;">
+        {{- end -}}
+        <div>
+          <div style="font-weight:600;font-size:1rem;line-height:1.2;">
+            <a href="{{ $p.RelPermalink }}">{{ $name }}</a>
+          </div>
+
+          <div class="bio-container" style="margin-top:.35rem;max-width:480px;">
+              <input type="checkbox" id="bioToggle-{{ $p.File.UniqueID }}" class="bio-toggle">
+
+              <div class="bio-short">
+                  {{ $short | markdownify }}
+                  {{ if $full }}
+                  <label class="bio-more" for="bioToggle-{{ $p.File.UniqueID }}">Read More</label>
+                  {{ end }}
+              </div>
+
+              {{ if $full }}
+              <div class="bio-full">
+                  {{ $full | markdownify }}
+                  <label class="bio-less" for="bioToggle-{{ $p.File.UniqueID }}">Show Less</label>
+              </div>
+              {{ end }}
+          </div>
+
+          {{- if gt (len $icons) 0 -}}
+            <div class="social-icons" style="display:flex;gap:.5rem;margin-top:.5rem;align-items:center;">
+              {{- range $icons }}
+                <a href="{{ .url | safeURL }}" target="_blank" rel="noopener noreferrer me"
+                   title="{{ (.title | default .name) | title }}">
+                  {{ partial "svg.html" . }}
+                </a>
+              {{- end }}
+            </div>
+          {{- end -}}
+        </div>
+      </section>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
