@@ -8,6 +8,8 @@ tags = ["ranked", "ladder"]
 
 Ranked play is a ladder of stars. A win earns a star, a loss costs one, and every five stars is a rank. There are twenty-five ranks, from Recruit to Legend, so the climb to Legend is 120 stars.
 
+Three wins in a row start a streak, and every win on it earns two stars until Master. Below five stars a loss costs nothing, and once you reach Warlord you never drop below it.
+
 ## The ranks
 
 | # | Rank | Stars to enter |

@@ -299,6 +299,55 @@ The quotes of one asset in every currency, refreshed on demand.
 
 ---
 
+## Sui Market
+Every card listed for sale on Sui, cheapest first, from the game's index of Kiosk listings. `price` is in MIST (1 SUI = 1,000,000,000 MIST). `royalty` is what the transfer policy takes on a sale, in basis points, with a minimum in MIST.
+
+**URL**: `https://connect.cyberbrawl.io/sui/market`
+**Method**: `GET`
+**Auth required**: No
+
+### Success Response
+**Code**: `200 OK`
+
+**Content example**:
+```json
+{
+  "network": "mainnet",
+  "listings": [
+    { "item": "0xdd95…ed19", "kiosk": "0x8241…32e6", "card": "card_02_00031", "code": "CARD00031", "name": "Primal\nOverload", "type": 6, "price": "50000000000", "seller": "0xca54…732e", "at": 1791785882342 }
+  ],
+  "royalty": { "bps": 500, "min": "0" }
+}
+```
+
+---
+
+## Sui Cards
+The cards a Sui address holds, in its wallet and in the kiosks it owns.
+
+**URL**: `https://connect.cyberbrawl.io/sui/cards?address={address}`
+**Method**: `GET`
+**Auth required**: No
+
+### Success Response
+**Code**: `200 OK`
+
+**Content example**:
+```json
+{
+  "network": "mainnet",
+  "cards": [
+    { "id": "card_02_00031", "object": "0xdd95…ed19", "kiosk": "0x8241…32e6", "cap": "0xde78…9b7e", "listed": true, "exclusive": false },
+    { "id": "card_02_00072", "object": "0xb4a6…2416" }
+  ],
+  "kiosks": [
+    { "kiosk": "0x8241…32e6", "profits": "0" }
+  ]
+}
+```
+
+---
+
 ## Forge Price
 Get what the ION Forge charges today and the rules the contract applies. `base` is CREDIT per ION stroop in basis points (the contract's unit), `ion` the same as CREDIT per ION; `premium` is the 24-entry table of the power premium in basis points, `duration` the seconds of a forge at power 1; `fee` is the in-game service fee. `contract` is the Forge contract on Stellar mainnet; its source and the cost formulas are at https://github.com/litemint/cyberbrawl-contracts.
 
@@ -431,7 +480,8 @@ Get the list of available heroes.
 **Content example**:
 ```json
 [
-  {"id": 0, "name": "Arya", "property": "arya"}
+  { "id": 1, "key": "hero00001", "name": "Kismet", "title": "The Dealer", "power": "Mulligan", "tier": 4, "price": 100, "desc": "Discard a random card and draw next. Once per battle." },
+  { "id": 3, "key": "hero00003", "unlock": { "quest": "r1:overclock" }, "hint": "Complete the Overclock Heat quest.", "name": "Ohm", "title": "The Technician", "power": "Failsafe", "tier": 5, "price": 200, "desc": "All cards in your hand get +50% Overclock chance this turn. Once per battle." }
 ]
 ```
 

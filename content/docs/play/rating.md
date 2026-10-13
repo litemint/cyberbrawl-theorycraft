@@ -9,7 +9,7 @@ ShowToc = false
 
 How Cyberbrawl decides who is Legend #1.
 
-The ladder is a climb through 25 ranks. Win a ranked battle, gain a star. Lose one, drop a star. That takes you to Legend at 120 stars and to a full Legend at 124, where stars freeze. From that point the question changes from "how far have you climbed" to "how strong are you", and that is what the rating answers.
+The ladder is a climb through 25 ranks. Win a ranked battle, gain a star, two on a streak. Lose one, drop a star. That takes you to Legend at 120 stars, where stars freeze. From that point the question changes from "how far have you climbed" to "how strong are you", and that is what the rating answers.
 
 ## What it is
 
