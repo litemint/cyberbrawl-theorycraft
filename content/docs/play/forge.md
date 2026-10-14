@@ -1,13 +1,23 @@
 +++
-title = "The Forge"
+title = "Crafting: The Forge"
 short = "Crafting"
-weight = 2
+weight = 4
 date = "2026-10-08"
 tags = ["forge", "ion", "credit", "stellar"]
 ShowToc = false
 +++
 
-Stellar smart contract: [https://github.com/litemint/cyberbrawl-contracts](https://github.com/litemint/cyberbrawl-contracts)  
+## Rationale
+
+Our goal was to create a crafting system that behaves like a living economy, honest by construction, with some play in it
+
+In most card games, crafting is a price list: the studio decides what a card costs in dust and changes it when it likes. In Cyberbrawl, crafting is a live market driven by a smart contract.
+
+The price of ION is not set by us. A smart contract on Stellar computes it from what players actually earned, the daily CREDIT bounty, and from how much ION exists, and it moves with the game, every day.
+
+The contract is public, so anyone can verify an order: what you paid, how long it takes, what you get. Interaction is seamless for players, since the game handles contract calls and network fee.
+
+## Lore
 
 In the Cyberbrawl arena, everything is etched into silicon by ION plasma, from Hero Cores to card circuits.
 
@@ -25,7 +35,7 @@ time = 172,800 s / power
 premium(P) = P^(ln 3 / ln 24)
 ```
 
-`base` is the price of one ION in CREDIT, published once a day from the daily pool and its claimants, and moving at most 10% a day. The live value is [`/forge/price`](/docs/data/api/#forge-price).
+`base` is the price of one ION in CREDIT, published once a day from the daily bounty and its claimants, and moving at most 10% a day. The live value is [`/forge/price`](/docs/data/api/#forge-price).
 
 A forge takes two days whatever the amount; only the power shortens it.
 

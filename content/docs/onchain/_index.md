@@ -1,5 +1,5 @@
 +++
 title = "Onchain"
-weight = 4
-description = "Cyberbrawl blockchain integration"
+weight = 7
+description = "Own your cards: opt in, never required"
 +++

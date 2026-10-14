@@ -349,14 +349,15 @@
     border-radius: 1rem;
     overflow: hidden;
     background: #000;
-    aspect-ratio: 16 / 9;
 }
 
+/* The video keeps its 16:9; the box clips 100px off its bottom, where the trailer has only sky and the badge sits. */
 .home-trailer-video {
     display: block;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
+    margin-bottom: -100px;
     transition: transform 0.25s ease;
 }
 

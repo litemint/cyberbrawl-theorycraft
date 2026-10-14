@@ -70,7 +70,7 @@ enableRobotsTXT = true
 
 [[params.homeInfoParams.featured]]
   title = "The Undercity"
-  subtitle = "Trade cards onchain"
+  subtitle = "Trade your cards"
   image = "img/undercity-thumb.png"
   url   = "https://undercity.cyberbrawl.io"
 
