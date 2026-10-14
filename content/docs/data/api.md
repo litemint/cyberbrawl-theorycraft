@@ -299,6 +299,36 @@ The quotes of one asset in every currency, refreshed on demand.
 
 ---
 
+## In-game Market
+Every collectible card with its best ask and bid on the in-game market, where cards trade for CREDIT between accounts and the game server settles the trade. `asks` and `bids` are the number of open orders on the card, `last` the last sale. `fee` is the share of a sale taken by the game.
+
+**URL**: `https://connect.cyberbrawl.io/market/book`  
+**Method**: `GET`  
+**Auth required**: No
+
+### Success Response
+**Code**: `200 OK`
+
+**Content example**:
+```json
+{
+  "fee": 0.05,
+  "rows": [
+    {
+      "card": "card_02_00042",
+      "ask": 120,
+      "bid": 95.5,
+      "asks": 2,
+      "bids": 1,
+      "updated": 1791985731355,
+      "last": { "price": 110, "at": 1791900000000 }
+    }
+  ]
+}
+```
+
+---
+
 ## Sui Market
 Every card listed for sale on Sui, cheapest first, from the game's index of Kiosk listings. `price` is in MIST (1 SUI = 1,000,000,000 MIST). `royalty` is what the transfer policy takes on a sale, in basis points, with a minimum in MIST.
 
