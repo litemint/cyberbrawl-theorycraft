@@ -511,7 +511,7 @@ Get the list of available heroes.
 ```json
 [
   { "id": 1, "key": "hero00001", "name": "Kismet", "title": "The Dealer", "power": "Mulligan", "tier": 4, "price": 100, "desc": "Discard a random card and draw next. Once per battle." },
-  { "id": 3, "key": "hero00003", "unlock": { "quest": "r1:overclock" }, "hint": "Complete the Overclock Heat quest.", "name": "Ohm", "title": "The Technician", "power": "Failsafe", "tier": 5, "price": 200, "desc": "All cards in your hand get +50% Overclock chance this turn. Once per battle." }
+  { "id": 3, "key": "hero00003", "unlock": { "quest": "r1:overclock" }, "hint": "Complete the Overclock Heat quest.", "name": "Ohm", "title": "The Technician", "power": "Failsafe", "tier": 5, "price": 200, "desc": "All cards in your hand get +50% Overclock stability this turn. Once per battle." }
 ]
 ```
 

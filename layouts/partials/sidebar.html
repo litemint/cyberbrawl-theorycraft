@@ -33,40 +33,67 @@ below turns it into a chip row of the sections under the header, with the pages 
         if (!tree) return;
         var narrow = window.matchMedia('(max-width: 1080px)');
         var bar = null;
+        // One small icon for each section, by its title; a dot for any other.
+        var ICONS = {
+            play: '<path d="M6 7h12a3 3 0 0 1 3 3l1 6a2.5 2.5 0 0 1-4.3 1.8L16 16H8l-1.7 1.8A2.5 2.5 0 0 1 2 16l1-6a3 3 0 0 1 3-3z"/><path d="M8 10v3M6.5 11.5h3"/><circle cx="15.5" cy="11" r="0.6"/><circle cx="17.5" cy="12.8" r="0.6"/>',
+            data: '<path d="M5 20V11M12 20V4M19 20v-6"/>',
+            tools: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+            onchain: '<path d="M12 2.5l8.5 4.75v9.5L12 21.5l-8.5-4.75v-9.5z"/><path d="M12 21.5V12M3.5 7.25L12 12l8.5-4.75"/>',
+            other: '<circle cx="12" cy="12" r="3"/>'
+        };
         function build() {
             if (bar) return;
-            bar = document.createElement('div');
+            bar = document.createElement('nav');
             bar.className = 'tc-bar';
-            var row = document.createElement('div');
-            row.className = 'tc-bar-row';
+            bar.setAttribute('aria-label', 'Reference');
+            var scrim = document.createElement('div');
+            scrim.className = 'tc-scrim';
+            scrim.hidden = true;
             var panel = document.createElement('div');
             panel.className = 'tc-bar-panel';
-            var groups = tree.querySelectorAll('.tc-group');
+            panel.hidden = true;
+            var row = document.createElement('div');
+            row.className = 'tc-bar-row';
             var chips = [];
-            groups.forEach(function (group) {
+            function close() {
+                chips.forEach(function (c) { c.classList.remove('open'); });
+                panel.hidden = true;
+                scrim.hidden = true;
+                panel.innerHTML = '';
+            }
+            tree.querySelectorAll('.tc-group').forEach(function (group) {
+                var name = group.querySelector('.tc-group-title').textContent.trim();
                 var chip = document.createElement('button');
                 chip.type = 'button';
                 chip.className = 'tc-chip';
-                chip.textContent = group.querySelector('.tc-group-title').textContent.trim();
+                chip.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name.toLowerCase()] || ICONS.other) + '</svg>';
+                var label = document.createElement('span');
+                label.textContent = name;
+                chip.appendChild(label);
                 if (group.querySelector('a.active')) chip.classList.add('here');
                 chip.addEventListener('click', function () {
                     var open = chip.classList.contains('open');
-                    chips.forEach(function (c) { c.classList.remove('open'); });
-                    panel.innerHTML = '';
-                    if (open) { panel.hidden = true; return; }
+                    close();
+                    if (open) return;
                     chip.classList.add('open');
+                    var title = document.createElement('div');
+                    title.className = 'tc-bar-title';
+                    title.textContent = name;
+                    panel.appendChild(title);
                     panel.appendChild(group.querySelector('ul').cloneNode(true));
                     panel.hidden = false;
+                    scrim.hidden = false;
                 });
                 chips.push(chip);
                 row.appendChild(chip);
             });
-            panel.hidden = true;
-            bar.appendChild(row);
+            scrim.addEventListener('click', close);
+            document.addEventListener('keydown', function (event) { if (event.key === 'Escape') close(); });
             bar.appendChild(panel);
-            tree.parentNode.insertBefore(bar, tree);
-            var here = row.querySelector('.here');
-            if (here) here.scrollIntoView({ inline: 'center', block: 'nearest' });
+            bar.appendChild(row);
+            document.body.appendChild(scrim);
+            document.body.appendChild(bar);
+            document.body.classList.add('tc-has-bar');
         }
         function sync() {
             if (narrow.matches) { build(); tree.hidden = true; }

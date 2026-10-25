@@ -2,6 +2,11 @@
 
 :root {
     --tc-rail: 232px;
+    --tc-accent: #2aa8ff; /* The link blue of the site (home.css), "Want to contribute?". */
+}
+
+.dark {
+    --tc-accent: #2aa8ff; /* The link blue of the site (home.css). */
 }
 
 /* The header and the footer stretch to the shell's width so the rail does not hang outside them. */
@@ -137,7 +142,8 @@
 
 /* A phone: a chip row of the sections under the header, always visible and scrollable; a tapped section's pages open
    in a panel under the row. The rail markup stays in the page for the script to read, hidden. */
-.tc-bar {
+.tc-bar,
+.tc-scrim {
     display: none;
 }
 
@@ -147,84 +153,171 @@
         gap: 0;
     }
 
-    .tc-bar {
+    /* PaperMod centers the main column with auto margins, and an auto margin in a column flex box means the width of the
+       content, so the longest line of a code block set the width of the page. Full width, and the blocks scroll. */
+    .tc-shell > .main {
+        width: 100%;
+    }
+
+    /* A page never grows wider than the screen: a phone widens its whole layout (and the fixed bar goes with it, below the
+       screen) as soon as one thing overflows. Long words and addresses wrap, code blocks and tables scroll in their own box. */
+    .post-content {
+        overflow-wrap: anywhere;
+    }
+
+    .post-content pre,
+    .post-content .highlight {
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-wrap: normal;
+    }
+
+    .post-content table {
         display: block;
-        margin: 10px 0 0;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    /* The reference is a tab bar at the foot of the screen, where a thumb is: one tab for each section, always on
+       screen, and a tap lifts a sheet with the section's pages. */
+    .tc-bar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--theme) 94%, transparent);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-top: 2px solid var(--tc-accent);
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -8px 24px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    .tc-has-bar {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom));
+    }
+
+    .tc-scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .tc-scrim[hidden] {
+        display: none;
     }
 
     .tc-bar-row {
         display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        padding: 2px 0 6px;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .tc-bar-row::-webkit-scrollbar {
-        display: none;
     }
 
     .tc-chip {
-        flex: none;
-        padding: 7px 14px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: var(--entry);
-        color: var(--secondary);
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 10px 4px 9px;
+        border: 0;
+        background: none;
+        color: var(--content);
         font: inherit;
-        font-size: 0.9rem;
-        font-weight: 600;
-        white-space: nowrap;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
         cursor: pointer;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
     }
 
-    .tc-chip.here {
-        color: var(--primary);
-        border-color: var(--primary);
+    .tc-chip svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .tc-chip.here,
+    .tc-chip.open {
+        color: var(--tc-accent);
     }
 
     .tc-chip.open {
-        background: var(--primary);
-        color: var(--theme);
-        border-color: var(--primary);
+        background: color-mix(in srgb, var(--tc-accent) 14%, transparent);
+    }
+
+    .tc-chip.here::before,
+    .tc-chip.open::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: 22%;
+        right: 22%;
+        height: 3px;
+        border-radius: 0 0 3px 3px;
+        background: var(--tc-accent);
     }
 
     .tc-bar-panel {
-        margin-top: 6px;
-        padding: 6px 10px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
+        max-height: 56vh;
+        overflow-y: auto;
         background: var(--entry);
+        border-bottom: 1px solid var(--border);
+        border-radius: 14px 14px 0 0;
+    }
+
+    .tc-bar-panel[hidden] {
+        display: none;
+    }
+
+    .tc-bar-title {
+        padding: 14px 20px 6px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--tc-accent);
     }
 
     .tc-bar-panel ul {
         list-style: none;
         margin: 0;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2px 14px;
+        padding: 0 0 6px;
+    }
+
+    .tc-bar-panel li {
+        margin: 0;
     }
 
     .tc-bar-panel li a {
-        display: inline-block;
-        padding: 6px 4px;
-        font-size: 0.95rem;
-        color: var(--secondary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        font-size: 1.05rem;
+        color: var(--primary);
+        border-top: 1px solid var(--border);
     }
 
     .tc-bar-panel li a.active {
-        color: var(--primary);
-        font-weight: 600;
+        color: var(--tc-accent);
+        font-weight: 700;
     }
 
     .tc-bar-panel a.tc-out svg {
-        width: 11px;
-        height: 11px;
-        margin-left: 5px;
+        width: 13px;
+        height: 13px;
+        margin-left: 8px;
         opacity: 0.6;
-        vertical-align: -1px;
     }
 
     .tc-sidebar {
@@ -398,4 +491,11 @@
 /* Reference tables read better a touch tighter. */
 .post-content table {
     font-size: 0.92rem;
+}
+
+/* A phone: the header keeps the logo (which is Home) and the theme switch; Home, Posts and Tags are not wanted there. */
+@media (max-width: 720px) {
+    .nav #menu {
+        display: none;
+    }
 }
