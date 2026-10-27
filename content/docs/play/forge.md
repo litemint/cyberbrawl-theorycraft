@@ -9,11 +9,11 @@ ShowToc = false
 
 ## Rationale
 
-Our goal was to create a crafting system that behaves like a living economy, honest by construction, with some play in it
+Our goal was to create a crafting system that behaves like a living economy, balanced by construction, with some play in it
 
 In most card games, crafting is a price list: the studio decides what a card costs in dust and changes it when it likes. In Cyberbrawl, crafting is a live market driven by a smart contract.
 
-The price of ION is not set by us. A smart contract on Stellar computes it from what players actually earned, the daily CREDIT bounty, and from how much ION exists, and it moves with the game, every day.
+A smart contract on Stellar computes the price of ION from what players earned, the daily CREDIT bounty, and from how much ION exists, and it moves with the game, every day.
 
 The contract is public, so anyone can verify an order: what you paid, how long it takes, what you get. Interaction is seamless for players, since the game handles contract calls and network fee.
 
@@ -60,7 +60,26 @@ cost = amount × base × (premium(now_power) − premium(power))
 
 Example: 300 ION at power 1, base 24.24 CREDIT per ION. Ignite costs 7,272 CREDIT, ready in 48 hours. Extracting after 24 hours prices the forge as power 2: the step from 1.000× to 1.271× is 1,970 CREDIT. Total 9,242 CREDIT, what power 2 would have cost upfront.
 
+## Beam: etch cards
+
+The Beam lets you `etch` exclusive cards.
+
+As with ION forging, you can use the seamless in-game service for a fee, which handles contract calls and zero-knowledge proofs for you. The service only allows you to etch cards you don't already own. To `etch` duplicates, you must interact with the contract directly.
+
+### Crafting Tiers
+
+Common cards are available to everyone. To unlock Epic and Legendary crafting, you must defeat the Ironclad boss in the Solo Gauntlet and earn the Ironclad Slayer achievement.
+
+### Engram and Zero-Knowledge Proof
+
+The Beam contract lives on a public chain, so it cannot look into your game account to see what you earned (e.g., achievements). Your **Engram** is a private record of everything you've earned in the game.
+
+To `etch` a gated card, a **zero-knowledge proof** is generated from your Engram. It proves to the contract that you meet the requirements, without revealing your Engram or anything else it contains.
+
+To generate and download your Engram, go to **Options > Advanced > Generate Your Digital Engram**.
+
 ## Links
 
-- Contract: [`CDJZCLXBQ6QRRQIPOV73HXOL5HWZBDUWHRESMD23PORSFAGZD3ELZQMH`](https://stellar.expert/explorer/public/contract/CDJZCLXBQ6QRRQIPOV73HXOL5HWZBDUWHRESMD23PORSFAGZD3ELZQMH)
+- Forge contract: [`CDJZCLXBQ6QRRQIPOV73HXOL5HWZBDUWHRESMD23PORSFAGZD3ELZQMH`](https://stellar.expert/explorer/public/contract/CDJZCLXBQ6QRRQIPOV73HXOL5HWZBDUWHRESMD23PORSFAGZD3ELZQMH)
+- Beam contract: [`CDQNFEV6NNDEF2PEDI3MBBKZ4G6XBXNZTRB55KUZUDYLA42PI4ZK2XJS`](https://stellar.expert/explorer/public/contract/CDQNFEV6NNDEF2PEDI3MBBKZ4G6XBXNZTRB55KUZUDYLA42PI4ZK2XJS)
 - Source and releases: [litemint/cyberbrawl-contracts](https://github.com/litemint/cyberbrawl-contracts)
