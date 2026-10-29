@@ -22,6 +22,10 @@ Behind the scenes, real transactions take place onchain. When a card is gated, t
 
 But you don't have to go through the game. You can interact with the Beam directly, using your own wallet. This article shows you how.
 
+Alternatively, you can follow along with this video:
+
+{{< youtube pLJbe--LH5s >}}
+
 ## What you need
 
 - The [Stellar CLI](https://developers.stellar.org/docs/tools/cli) and an account with a key you can sign with, holding some XLM and the ION to spend (`ION`, issued by `GBAKUWF2HTJ325PH6VATZQ3UNTK2AGTATR43U52WQCYJ25JNSCF5OFUN`).
